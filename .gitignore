@@ -1,0 +1,12 @@
+node_modules/
+.expo/
+dist/
+expo-env.d.ts
+*.tsbuildinfo
+*.log
+.env
+.env.*
+/android/
+/ios/
+/material-personal/
+GUIA-DEFENSA.*

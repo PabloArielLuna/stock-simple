@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Stock Simple",
+    "slug": "stock-simple",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": { "supportsTablet": true },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Stock Simple usa la cámara para fotografiar tus productos.",
+          "photosPermission": "Stock Simple permite elegir una foto para tus productos.",
+          "microphonePermission": false
+        }
+      ]
+    ]
+  }
+}
