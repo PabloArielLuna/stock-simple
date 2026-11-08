@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Switch,
+  Text,
+  View,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackProductos } from '../types/navegacion';
@@ -19,6 +27,7 @@ export default function FormularioProductoScreen({ app, route, navigation }: Pro
   const [stock, setStock] = useState(producto ? String(producto.stock) : '');
   const [minimo, setMinimo] = useState(producto ? String(producto.minimo) : '2');
   const [foto, setFoto] = useState<string | null>(producto?.foto ?? null);
+  const [publico, setPublico] = useState(producto?.publico ?? false);
   const [cargandoFoto, setCargandoFoto] = useState(false);
   const [error, setError] = useState('');
   const ocupado = app.guardando || cargandoFoto;
@@ -70,6 +79,7 @@ export default function FormularioProductoScreen({ app, route, navigation }: Pro
       stock: Number(stock),
       minimo: Number(minimo),
       foto,
+      publico,
     };
     const mensaje =
       !precio.trim() || !stock.trim() || !minimo.trim()
@@ -131,6 +141,15 @@ export default function FormularioProductoScreen({ app, route, navigation }: Pro
           maxLength={5}
           editable={!ocupado}
         />
+        <View style={[estilos.fila, { justifyContent: 'space-between' }]}>
+          <Text style={estilos.texto}>Visible para invitados</Text>
+          <Switch
+            accessibilityLabel="Visible para invitados"
+            value={publico}
+            onValueChange={setPublico}
+            disabled={ocupado}
+          />
+        </View>
         <View style={estilos.tarjeta}>
           <Text style={estilos.subtitulo}>Foto opcional</Text>
           {foto && (

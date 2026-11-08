@@ -47,7 +47,7 @@ export default function AppNavigator({ app }: { app: DatosApp }) {
       {app.invitado && (
         <SafeAreaView edges={['top']} style={s.aviso}>
           <View style={s.fila}>
-            <Text style={s.texto}>Invitado · Datos de ejemplo</Text>
+            <Text style={s.texto}>Invitado · Solo lectura</Text>
             <TouchableOpacity
               accessibilityRole="button"
               accessibilityLabel="Ingresar"

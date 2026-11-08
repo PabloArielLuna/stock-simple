@@ -25,8 +25,8 @@ export default function ProductosScreen({ navigation, app }: Props) {
         ListHeaderComponent={
           <View style={s.cabecera}>
             <Text style={estilos.nota}>
-              {app.productos.length} productos · {bajos} con stock bajo
-              {app.invitado ? ' · Ejemplos' : ''}
+              {app.productos.length} {app.productos.length === 1 ? 'producto' : 'productos'} ·{' '}
+              {bajos} con stock bajo
             </Text>
             {!app.invitado && (
               <Boton titulo="Agregar producto" onPress={() => navigation.navigate('Formulario')} />
@@ -58,7 +58,9 @@ export default function ProductosScreen({ navigation, app }: Props) {
           <View style={estilos.tarjeta}>
             <Text style={estilos.texto}>
               {app.productos.length === 0
-                ? 'Todavía no hay productos.'
+                ? app.invitado
+                  ? 'No hay productos visibles para invitados.'
+                  : 'Todavía no hay productos.'
                 : 'No hay productos con stock bajo.'}
             </Text>
           </View>

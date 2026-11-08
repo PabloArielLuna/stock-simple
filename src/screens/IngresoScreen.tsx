@@ -109,7 +109,7 @@ export default function IngresoScreen({ app }: { app: DatosApp }) {
               onPress={() => void enviar()}
             />
             {crear && (
-              <Text style={estilos.nota}>Cuenta local. Usá un PIN de práctica y recordalo.</Text>
+              <Text style={estilos.nota}>Cuenta local. Recordá tu PIN para volver a ingresar.</Text>
             )}
           </View>
           <Boton

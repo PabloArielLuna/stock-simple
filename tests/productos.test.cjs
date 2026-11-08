@@ -47,3 +47,10 @@ test('Rechaza datos incompletos, usuarios duplicados y archivos inválidos', () 
   ])
     assert.equal(datosValidos(invalido), false);
 });
+
+test('La visibilidad es opcional para conservar los productos anteriores', () => {
+  assert.equal(datosValidos(datos), true);
+  assert.equal(validarProducto({ ...producto, publico: true }), '');
+  assert.equal(validarProducto({ ...producto, publico: false }), '');
+  assert.notEqual(validarProducto({ ...producto, publico: 'si' }), '');
+});

@@ -24,6 +24,8 @@ export function validarProducto(producto: FormularioProducto): string {
     (!producto.foto.startsWith('data:image/') || producto.foto.length > 1000000)
   )
     return 'Elegí una foto más pequeña.';
+  if (producto.publico !== undefined && typeof producto.publico !== 'boolean')
+    return 'Revisá la visibilidad del producto.';
   return '';
 }
 

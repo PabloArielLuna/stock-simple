@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Datos, FormularioProducto, Producto, Sesion } from '../types/modelos';
 import { datosValidos, validarProducto } from '../utils/productos';
-import { ejemplos } from '../data/ejemplos';
 
 const CLAVE = '@stock-simple/datos-v1';
 const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
@@ -42,7 +41,7 @@ export function useDatos(): DatosApp {
     const texto = JSON.stringify(nuevos);
     if (texto.length > 1500000)
       throw new Error(
-        'No queda espacio en esta versión simple. Quitá alguna foto o elegí fotos más pequeñas.',
+        'Se alcanzó el espacio disponible para fotos. Quitá alguna foto o elegí fotos más pequeñas.',
       );
     setGuardando(true);
     try {
@@ -111,7 +110,9 @@ export function useDatos(): DatosApp {
     ingresar,
     guardarProducto,
     eliminarProducto,
-    productos: invitado ? ejemplos : datos.productos.filter((p) => p.usuarioId === sesion?.id),
+    productos: invitado
+      ? datos.productos.filter((p) => p.publico === true)
+      : datos.productos.filter((p) => p.usuarioId === sesion?.id),
     explorar: () => setSesion({ id: 'invitado', nombre: 'Invitado' }),
     salir: () => {
       if (!guardando) setSesion(null);

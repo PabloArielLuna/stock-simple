@@ -11,8 +11,8 @@ export default function CuentaScreen({ app }: { app: DatosApp }) {
         <Text style={estilos.titulo}>{app.sesion?.nombre}</Text>
         <Text style={estilos.texto}>
           {app.invitado
-            ? 'Catálogo de ejemplo · Solo lectura'
-            : `${app.productos.length} productos guardados`}
+            ? 'Catálogo · Solo lectura'
+            : `${app.productos.length} ${app.productos.length === 1 ? 'producto guardado' : 'productos guardados'}`}
         </Text>
         {!app.invitado && (
           <Text style={estilos.nota}>Los datos quedan en este dispositivo o navegador.</Text>

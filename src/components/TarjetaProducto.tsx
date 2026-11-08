@@ -30,7 +30,8 @@ export default function TarjetaProducto({ producto, onPress }: Props) {
         <Text style={s.nombre}>{producto.nombre}</Text>
         <Text style={s.precio}>{precioTexto(producto.precio)}</Text>
         <Text style={[s.stock, stockBajo(producto) && s.bajo]}>
-          {producto.stock} unidades{stockBajo(producto) ? ' · Stock bajo' : ''}
+          {producto.stock} {producto.stock === 1 ? 'unidad' : 'unidades'}
+          {stockBajo(producto) ? ' · Stock bajo' : ''}
         </Text>
       </View>
       <Ionicons name="chevron-forward" size={20} color={colores.gris} />
