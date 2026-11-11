@@ -33,24 +33,27 @@ Abrir Expo Go compatible con SDK 58 y escanear el QR. La PC y el teléfono deben
 
 La aplicación comienza vacía. La navegación usa un único **Stack**: Lista, Detalle y Formulario. El ingreso se muestra antes de entrar al inventario. La cantidad se modifica desde Editar producto.
 
-## Estructura
+## Estructura de carpetas
+
+La organización sigue el ejemplo de la clase 12. Las fotos de productos se guardan con los datos del usuario; no se necesita una carpeta assets con imágenes fijas.
 
 ```text
 stock-simple/
+├── README.md               Descripción e instrucciones
+├── tsconfig.json           Configuración de TypeScript
 ├── App.tsx                 Entrada y carga inicial
 ├── index.ts                Registro de la app en Expo
 ├── app.json                Nombre y permisos
 ├── package.json            Dependencias y comandos
 ├── package-lock.json       Versiones de instalación
-├── src/
-│   ├── components/         Boton, Campo y TarjetaProducto
-│   ├── screens/            Ingreso, Productos, Detalle y Formulario
-│   ├── navigation/         Configuración del Stack
-│   ├── hooks/useDatos.ts   Estado, sesión y guardado
-│   ├── types/              Modelos y parámetros
-│   ├── styles/             Colores y estilos comunes
-│   └── utils/              Validación y formato de precios
-└── tests/                  Pruebas de reglas de productos
+└── src/
+    ├── components/         Boton, Campo y TarjetaProducto
+    ├── screens/            Ingreso, Productos, Detalle y Formulario
+    ├── navigation/         Configuración del Stack
+    ├── hooks/useDatos.ts   Estado, sesión y guardado
+    ├── types/              Modelos y parámetros
+    ├── styles/             Colores y estilos comunes
+    └── utils/              Validación y formato de precios
 ```
 
 Los componentes reciben datos por props. Los formularios usan useState; la navegación recibe el ID del producto. AsyncStorage guarda un JSON y useEffect lo carga al abrir la aplicación. El guardado local es un valor agregado permitido por la consigna y conserva los inventarios de los usuarios.
@@ -88,6 +91,6 @@ npx expo install --check
 npx expo export --platform all
 ```
 
-Verificado el 11/11/2026: TypeScript, 5 pruebas de reglas, compatibilidad de dependencias y exportación de iOS, Android y web. En Chrome de escritorio y tamaño móvil se probaron los tres accesos, foto, alta, edición, baja, validaciones, reingreso, persistencia y separación entre usuarios. También se comprobó la lectura de productos de la versión anterior.
+Verificado el 11/11/2026: TypeScript, reglas de datos, compatibilidad de dependencias y exportación de iOS, Android y web. En Chrome de escritorio y tamaño móvil se probaron los tres accesos, foto, alta, edición, baja, validaciones, reingreso, persistencia y separación entre usuarios. También se comprobó la lectura de productos de la versión anterior.
 
-La cámara y los permisos necesitan además una comprobación física en el teléfono.
+El usuario informó haber probado en el celular crear y editar productos, eliminar, sacar fotos, modo invitado, crear cuenta, ingresar, salir y volver a ingresar.
