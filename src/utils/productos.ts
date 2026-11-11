@@ -1,13 +1,9 @@
-import { Datos, FormularioProducto, Producto } from '../types/modelos';
+import { Datos, FormularioProducto } from '../types/modelos';
 
 export function precioTexto(precio: number) {
   return (
     '$ ' + precio.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   );
-}
-
-export function stockBajo(producto: Producto) {
-  return producto.stock <= producto.minimo;
 }
 
 export function validarProducto(producto: FormularioProducto): string {
@@ -17,8 +13,6 @@ export function validarProducto(producto: FormularioProducto): string {
     return 'Ingresá un precio mayor a cero y menor a 100 millones.';
   if (!Number.isInteger(producto.stock) || producto.stock < 0 || producto.stock > 99999)
     return 'La cantidad debe ser un entero entre 0 y 99999.';
-  if (!Number.isInteger(producto.minimo) || producto.minimo < 0 || producto.minimo > 99999)
-    return 'El mínimo debe ser un entero entre 0 y 99999.';
   if (
     producto.foto !== null &&
     (!producto.foto.startsWith('data:image/') || producto.foto.length > 1000000)

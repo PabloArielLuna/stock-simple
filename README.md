@@ -1,8 +1,8 @@
 # Stock Simple
 
-Aplicación de inventario con React Native, Expo y TypeScript. Permite crear usuarios, cargar productos y guardar los cambios en el celular o en el navegador de una PC.
+Aplicación de inventario con React Native, Expo y TypeScript. Permite cargar productos y consultar sus datos en un celular o en el navegador de una PC.
 
-## Descargar y ejecutar
+## Instalación y ejecución
 
 Se necesita Node.js con npm.
 
@@ -12,47 +12,73 @@ cd stock-simple
 npm ci
 ```
 
-**En PC:** ejecutar `npm run web` y abrir la dirección que aparece en la terminal.
+**Celular:**
 
-**En celular:** ejecutar `npm start`, abrir Expo Go compatible con SDK 58 y escanear el QR. La PC y el teléfono deben estar en la misma Wi-Fi; mantener la terminal abierta. Si Expo solicita una cuenta, usar la misma en la PC (`npx expo login`) y en Expo Go. Si falla la conexión local, probar `npx expo start --go --tunnel`.
+```sh
+npx expo start --go
+```
 
-GitHub conserva el código. Para usar la aplicación hay que ejecutarla con los pasos anteriores.
+Abrir Expo Go compatible con SDK 58 y escanear el QR. La PC y el teléfono deben estar en la misma Wi-Fi y la terminal debe permanecer abierta. Si Expo solicita una cuenta, usar la misma en ambos equipos. Si falla la red local, probar `npx expo start --go --tunnel`.
 
-## Qué permite hacer
+**PC:** ejecutar `npm run web` y abrir la dirección indicada en la terminal.
 
-- Crear una cuenta e ingresar con usuario y PIN de cuatro números.
-- Agregar, consultar, editar y eliminar productos con nombre, precio, cantidad, mínimo y foto opcional.
-- Filtrar **Todos / Stock bajo**, usando `filter` como en la clase 8. Stock bajo significa cantidad menor o igual al mínimo.
-- Descontar una unidad sin permitir cantidades negativas.
-- Elegir qué productos son **visibles para invitados**. El invitado puede verlos y filtrarlos; no puede modificarlos.
-- Elegir fotos del equipo en PC y usar cámara o galería en el teléfono.
-- Compartir nombre, precio y cantidad desde el menú del teléfono.
-- Cerrar y volver a abrir conservando usuarios y productos.
+## Funciones
 
-La aplicación comienza vacía. Los productos se cargan desde una cuenta. No incorpora inventarios ficticios ni rellena datos al ingresar. Un producto nuevo es privado hasta activar Visible para invitados; los productos de versiones anteriores también siguen privados.
+- Crear cuenta, ingresar con usuario y PIN o entrar como invitado.
+- Listar productos con FlatList y consultar su detalle.
+- Agregar, editar y eliminar productos con nombre, precio, cantidad y foto opcional.
+- Sacar una foto con la cámara o elegirla de la galería. En PC se elige un archivo del equipo.
+- Elegir qué productos puede consultar el invitado. El invitado no puede modificar datos.
+- Conservar los usuarios y productos al cerrar la aplicación.
 
-## Organización y temas de clase
+La aplicación comienza vacía. La navegación usa un único **Stack**: Lista, Detalle y Formulario. El ingreso se muestra antes de entrar al inventario. La cantidad se modifica desde Editar producto.
 
-| Carpeta                   | Contenido                                        | Clases relacionadas                             |
-| ------------------------- | ------------------------------------------------ | ----------------------------------------------- |
-| `src/components`          | Botón, campo y tarjeta reutilizables             | 2 y 3: componentes y props                      |
-| `src/navigation`          | Pestañas y pila de pantallas, parámetros tipados | 4, 5 y 6: navegación                            |
-| `src/screens`             | Ingreso, lista, detalle, formulario y cuenta     | 7, 8 y 9: estado, listas, formularios y eventos |
-| `src/styles`              | Colores, Flexbox y estilos comunes               | 10: estilos                                     |
-| `src/hooks/useDatos.ts`   | Usuarios, sesión y guardado                      | 12: hooks y organización                        |
-| `src/types` y `src/utils` | Tipos, formato de precio y validación            | TypeScript y funciones                          |
+## Estructura
 
-Se usan `ActivityIndicator` para el guardado y confirmación antes de eliminar, como en la clase 11. El estado se pasa por props y la navegación recibe el ID del producto.
+```text
+stock-simple/
+├── App.tsx                 Entrada y carga inicial
+├── index.ts                Registro de la app en Expo
+├── app.json                Nombre y permisos
+├── package.json            Dependencias y comandos
+├── package-lock.json       Versiones de instalación
+├── src/
+│   ├── components/         Boton, Campo y TarjetaProducto
+│   ├── screens/            Ingreso, Productos, Detalle y Formulario
+│   ├── navigation/         Configuración del Stack
+│   ├── hooks/useDatos.ts   Estado, sesión y guardado
+│   ├── types/              Modelos y parámetros
+│   ├── styles/             Colores y estilos comunes
+│   └── utils/              Validación y formato de precios
+└── tests/                  Pruebas de reglas de productos
+```
 
-Para conservar la información se usa AsyncStorage, con una carga inicial mediante useEffect. Para las fotos se usa expo-image-picker y para compartir, Share de React Native. Son los complementos necesarios para la persistencia y las funciones del teléfono; la clase 6 anuncia AsyncStorage para clases posteriores.
+Los componentes reciben datos por props. Los formularios usan useState; la navegación recibe el ID del producto. AsyncStorage guarda un JSON y useEffect lo carga al abrir la aplicación. El guardado local es un valor agregado permitido por la consigna y conserva los inventarios de los usuarios.
 
-## Guardado local
+## Dependencias
 
-Cada usuario administra su inventario. El invitado ve únicamente los productos marcados como visibles, dentro de esa misma instalación. Los cambios se guardan antes de actualizar la pantalla; si falla la escritura, se informa el error y se conservan los datos anteriores.
+| Dependencia                                                  | Uso                                                                        |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| `expo`, `react`, `react-native`                              | Base de la aplicación y componentes funcionales                            |
+| `@react-navigation/native`, `@react-navigation/native-stack` | Navegar entre Lista, Detalle y Formulario                                  |
+| `react-native-screens`, `react-native-safe-area-context`     | Pantallas nativas y espacio seguro alrededor de los controles del teléfono |
+| `expo-image-picker`                                          | Cámara y galería para la foto del producto                                 |
+| `@react-native-async-storage/async-storage`                  | Conservar usuarios y productos al cerrar la app                            |
+| `expo-status-bar`                                            | Barra de estado legible sobre el fondo claro                               |
+| `react-dom`, `react-native-web`, `@expo/metro-runtime`       | Ejecutar la interfaz en PC                                                 |
+| `typescript`, `@types/react`                                 | Comprobar los tipos durante el desarrollo                                  |
 
-Las cuentas y los productos son **locales a cada dispositivo o navegador**. No hay sincronización entre PC y celular, servidor ni recuperación de PIN. El PIN se guarda sin cifrado en el almacenamiento local. Borrar los datos de Expo Go, desinstalar o limpiar los datos del sitio puede eliminar la información.
+Las versiones se indican en package.json y package-lock.json. FlatList, Switch, Alert y ActivityIndicator forman parte de React Native. Se utilizan para el listado, la visibilidad del producto, la confirmación de eliminación y el aviso de carga.
 
-Las fotos se guardan como base64 para conservarlas sin depender de una ruta temporal. Se admite hasta 900.000 caracteres por imagen y 1.500.000 en el archivo completo. Al alcanzar el límite se pide quitar fotos o elegir imágenes más pequeñas. Vender una unidad descuenta la cantidad; no genera factura ni historial contable. Compartir abre el menú del sistema y no confirma que se haya enviado un mensaje.
+## Uso de IA
+
+Se utilizó **ChatGPT/Codex** como asistencia para proponer la estructura, generar y modificar código, ejecutar verificaciones y preparar documentación. El uso se explicita también en la defensa oral, donde se debe comprender y justificar la implementación.
+
+## Almacenamiento y alcance
+
+Cada usuario administra sus productos. El invitado ve únicamente los marcados como visibles en esa instalación. Las cuentas y los datos son locales: **no se sincronizan entre PC y celular**. El PIN se guarda sin cifrado y no tiene recuperación.
+
+Las fotos se conservan como texto base64, sin depender de un archivo temporal. El límite es de 900.000 caracteres por imagen y 1.500.000 en el archivo completo. Si falla la escritura se informa el error y se conservan los datos anteriores. Borrar los datos del sitio o desinstalar puede eliminar lo guardado.
 
 ## Verificación
 
@@ -62,6 +88,6 @@ npx expo install --check
 npx expo export --platform all
 ```
 
-Verificado el 08/11/2026: TypeScript, 5 pruebas de reglas y recorrido en Chrome de escritorio y tamaño móvil. Se comprobó publicar y ocultar productos reales para el invitado, además de: crear usuarios, cargar y editar un producto con foto, filtrar, descontar stock, cerrar sesión, volver a ingresar, recargar y comprobar aislamiento. La exportación genera las versiones de iOS, Android y web. La cámara, los permisos y el menú para compartir requieren además una prueba física en el teléfono.
+Verificado el 11/11/2026: TypeScript, 5 pruebas de reglas, compatibilidad de dependencias y exportación de iOS, Android y web. En Chrome de escritorio y tamaño móvil se probaron los tres accesos, foto, alta, edición, baja, validaciones, reingreso, persistencia y separación entre usuarios. También se comprobó la lectura de productos de la versión anterior.
 
-Fuentes: [Expo Go](https://expo.dev/go), [ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/), [AsyncStorage](https://react-native-async-storage.github.io/async-storage/docs/usage/), [Share](https://reactnative.dev/docs/share).
+La cámara y los permisos necesitan además una comprobación física en el teléfono.

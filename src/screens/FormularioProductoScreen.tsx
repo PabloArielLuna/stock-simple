@@ -25,7 +25,6 @@ export default function FormularioProductoScreen({ app, route, navigation }: Pro
   const [nombre, setNombre] = useState(producto?.nombre ?? '');
   const [precio, setPrecio] = useState(producto ? String(producto.precio) : '');
   const [stock, setStock] = useState(producto ? String(producto.stock) : '');
-  const [minimo, setMinimo] = useState(producto ? String(producto.minimo) : '2');
   const [foto, setFoto] = useState<string | null>(producto?.foto ?? null);
   const [publico, setPublico] = useState(producto?.publico ?? false);
   const [cargandoFoto, setCargandoFoto] = useState(false);
@@ -77,14 +76,11 @@ export default function FormularioProductoScreen({ app, route, navigation }: Pro
       nombre: nombre.trim(),
       precio: Number(precio.replace(',', '.')),
       stock: Number(stock),
-      minimo: Number(minimo),
       foto,
       publico,
     };
     const mensaje =
-      !precio.trim() || !stock.trim() || !minimo.trim()
-        ? 'Completá precio, cantidad y mínimo.'
-        : validarProducto(form);
+      !precio.trim() || !stock.trim() ? 'Completá precio y cantidad.' : validarProducto(form);
     if (mensaje) {
       setError(mensaje);
       return;
@@ -129,14 +125,6 @@ export default function FormularioProductoScreen({ app, route, navigation }: Pro
           label="Cantidad"
           value={stock}
           onChangeText={setStock}
-          keyboardType="number-pad"
-          maxLength={5}
-          editable={!ocupado}
-        />
-        <Campo
-          label="Avisar con esta cantidad o menos"
-          value={minimo}
-          onChangeText={setMinimo}
           keyboardType="number-pad"
           maxLength={5}
           editable={!ocupado}

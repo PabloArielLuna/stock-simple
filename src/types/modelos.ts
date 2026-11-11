@@ -7,7 +7,6 @@ export type Producto = {
   nombre: string;
   precio: number;
   stock: number;
-  minimo: number;
   foto: string | null;
   publico?: boolean;
 };
@@ -17,7 +16,6 @@ export type FormularioProducto = {
   nombre: string;
   precio: number;
   stock: number;
-  minimo: number;
   foto: string | null;
   publico?: boolean;
 };

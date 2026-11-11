@@ -3,5 +3,3 @@ export type StackProductos = {
   Detalle: { productoId: string };
   Formulario: { productoId?: string } | undefined;
 };
-
-export type Tabs = { Productos: undefined; Cuenta: undefined };

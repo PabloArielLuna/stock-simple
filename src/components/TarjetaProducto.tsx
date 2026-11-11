@@ -1,8 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { Producto } from '../types/modelos';
-import { precioTexto, stockBajo } from '../utils/productos';
+import { precioTexto } from '../utils/productos';
 import { colores } from '../styles/colores';
 
 type Props = { producto: Producto; onPress: () => void };
@@ -23,18 +22,16 @@ export default function TarjetaProducto({ producto, onPress }: Props) {
         />
       ) : (
         <View style={[s.foto, s.icono]}>
-          <Ionicons name="cube-outline" size={26} color={colores.azul} />
+          <Text style={s.sinFoto}>Sin foto</Text>
         </View>
       )}
       <View style={s.datos}>
         <Text style={s.nombre}>{producto.nombre}</Text>
         <Text style={s.precio}>{precioTexto(producto.precio)}</Text>
-        <Text style={[s.stock, stockBajo(producto) && s.bajo]}>
+        <Text style={s.stock}>
           {producto.stock} {producto.stock === 1 ? 'unidad' : 'unidades'}
-          {stockBajo(producto) ? ' · Stock bajo' : ''}
         </Text>
       </View>
-      <Ionicons name="chevron-forward" size={20} color={colores.gris} />
     </TouchableOpacity>
   );
 }
@@ -52,9 +49,9 @@ const s = StyleSheet.create({
   },
   foto: { width: 62, height: 62, borderRadius: 9 },
   icono: { backgroundColor: colores.azulClaro, alignItems: 'center', justifyContent: 'center' },
+  sinFoto: { color: colores.gris, fontSize: 11 },
   datos: { flex: 1, gap: 5 },
   nombre: { fontSize: 16, fontWeight: '600', color: colores.texto },
   precio: { color: colores.azul, fontSize: 15, fontWeight: '600' },
   stock: { color: colores.gris, fontSize: 13 },
-  bajo: { color: colores.rojo },
 });
